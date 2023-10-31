@@ -16,6 +16,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    // private final UserDetailsServiceImpl userDetailsServiceImpl;
+
+    // public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
+    //     this.userDetailsServiceImpl = userDetailsServiceImpl;
+    // }
+
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -47,6 +53,7 @@ public class SecurityConfig {
                             .requestMatchers("/error").permitAll()
                             .anyRequest().authenticated();
                 })
+                // .userDetailsService(userDetailsServiceImpl)
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

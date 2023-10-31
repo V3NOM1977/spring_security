@@ -1,16 +1,17 @@
 package com.example.spring_security.config;
 
-import java.util.Optional;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+import com.example.spring_security.entities.User;
 import com.example.spring_security.repositories.UserRepo;
 
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
+    private final static String USER_NOT_FOUND_MSG = "User with email %s not found";
 
     private final UserRepo userRepo;
 
@@ -20,7 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return null;
+        User user = userRepo.findUserByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        String.format(USER_NOT_FOUND_MSG, email)));
+        return new UserDetailsImpl(user);
     }
 
 }
