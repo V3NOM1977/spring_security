@@ -2,6 +2,7 @@ package com.example.spring_security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,16 +16,19 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
-    // public SecurityFilterChain config(HttpSecurity http) throws Exception {
-    // http
-    // .csrf(csrf -> {
-    // csrf.disable();
-    // })
-    // .authorizeHttpRequests(auth -> {
-    // auth
-    // .anyRequest().authenticated();
-    // });
-    // return http.build();`x
-    // }
+    @Bean
+    public SecurityFilterChain config(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> {
+                    csrf.disable();
+                })
+                .authorizeHttpRequests(auth -> {
+                    auth
+                            .requestMatchers("/error").permitAll()
+                            .anyRequest().authenticated();
+                })
+                .httpBasic(Customizer.withDefaults());
+        return http.build();
+    }
 
 }
