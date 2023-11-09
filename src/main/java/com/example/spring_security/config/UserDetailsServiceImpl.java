@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.spring_security.entities.User;
 import com.example.spring_security.repositories.UserRepo;
 
-@Service
+// @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final static String USER_NOT_FOUND_MSG = "User with email %s not found";
